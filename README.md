@@ -1,3 +1,3 @@
 # Product_API
 
-API to controle and add products
+API to control and add products
