@@ -1,5 +1,6 @@
 package com.api.product.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,36 +9,44 @@ public class ProductModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "code_product")
-    private int code_product;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "name_product")
-    private String name_product;
+    @JsonProperty("name")
+    private String nameProduct;
 
     @Column(name = "value_product")
-    private double value_product;
+    @JsonProperty("value")
+    private double valueProduct;
 
-    public int getCode_product() {
-        return code_product;
+    public Long getId() {
+
+        return id;
     }
 
-    public void setCode_product(int code_product) {
-        this.code_product = code_product;
+    public void setId(long id) {
+
+        this.id = id;
     }
 
-    public String getName_product() {
-        return name_product;
+    public String getNameProduct() {
+
+        return nameProduct;
     }
 
-    public void setName_product(String name_product) {
-        this.name_product = name_product;
+    public void setNameProduct(String nameProduct) {
+
+        this.nameProduct = nameProduct;
     }
 
-    public double getValue_product() {
-        return value_product;
+    public double getValueProduct() {
+
+        return valueProduct;
     }
 
-    public void setValue_product(double value_product) {
-        this.value_product = value_product;
+    public void setValueProduct(double valueProduct) {
+
+        this.valueProduct = valueProduct;
     }
 }
