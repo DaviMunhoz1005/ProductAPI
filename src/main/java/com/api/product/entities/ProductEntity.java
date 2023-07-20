@@ -1,11 +1,11 @@
-package com.api.product.model;
+package com.api.product.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Product")
-public class ProductModel {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

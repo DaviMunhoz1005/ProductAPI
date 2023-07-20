@@ -1,6 +1,6 @@
 package com.api.product.service;
 
-import com.api.product.model.ProductModel;
+import com.api.product.entities.ProductEntity;
 import com.api.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,25 +17,25 @@ public class ProductService {
     }
 
     /* List of products */
-    public List<ProductModel> findAllProducts() {
+    public List<ProductEntity> findAllProducts() {
 
         return productRepository.findAll();
     }
 
     /* Add products */
-    public ProductModel addProduct(ProductModel product) {
+    public ProductEntity addProduct(ProductEntity product) {
 
         return productRepository.save(product);
     }
 
     /* Find products by code */
-    public ProductModel findById(Long id) {
+    public ProductEntity findById(Long id) {
 
         return productRepository.findById(id).get();
     }
 
     /* Modify product */
-    public ProductModel modifyProduct(ProductModel product) {
+    public ProductEntity modifyProduct(ProductEntity product) {
 
         return productRepository.save(product);
     }
@@ -43,7 +43,7 @@ public class ProductService {
     /* Delete product */
     public void deleteProduct(Long id) {
 
-        ProductModel product = findById(id);
+        ProductEntity product = findById(id);
         productRepository.delete(product);
     }
 }
