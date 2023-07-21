@@ -1,6 +1,6 @@
 package com.api.product.controller;
 
-import com.api.product.entities.ProductEntity;
+import com.api.product.entities.Product;
 import com.api.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,27 +39,27 @@ public class ProductController {
     }
 
     @GetMapping(path = "products")
-    public @ResponseBody List<ProductEntity> findAllProducts() {
+    public @ResponseBody List<Product> findAllProducts() {
 
         return productService.findAllProducts();
     }
 
     @PostMapping(path = "products")
-    public ProductEntity addProduct(@RequestBody ProductEntity product) {
+    public Product addProduct(@RequestBody Product product) {
 
         return productService.addProduct(product);
     }
 
     @GetMapping(value = "products/{id}")
-    public ProductEntity findById(@PathVariable Long id) {
+    public Product findById(@PathVariable Long id) {
 
         return productService.findById(id);
     }
 
-    @PutMapping(path = "products")
-    public @ResponseBody ProductEntity modifyProduct(@RequestBody ProductEntity product) {
+    @PutMapping(path = "products/{id}")
+    public @ResponseBody Product modifyProduct(@RequestBody Product product, @PathVariable Long id) {
 
-        return productService.modifyProduct(product);
+        return productService.modifyProduct(id, product);
     }
 
     @DeleteMapping(path = "products/{id}")
