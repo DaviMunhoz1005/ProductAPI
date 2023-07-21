@@ -2,6 +2,7 @@ package com.api.product.controller;
 
 import com.api.product.entities.Product;
 import com.api.product.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,19 +46,19 @@ public class ProductController {
     }
 
     @PostMapping(path = "products")
-    public Product addProduct(@RequestBody Product product) {
+    public Product addProduct(@Valid @RequestBody Product product) {
 
         return productService.addProduct(product);
     }
 
     @GetMapping(value = "products/{id}")
-    public Product findById(@PathVariable Long id) {
+    public @ResponseBody Product findById(@PathVariable Long id) {
 
         return productService.findById(id);
     }
 
     @PutMapping(path = "products/{id}")
-    public @ResponseBody Product modifyProduct(@RequestBody Product product, @PathVariable Long id) {
+    public Product modifyProduct(@RequestBody Product product, @PathVariable Long id) {
 
         return productService.modifyProduct(id, product);
     }
