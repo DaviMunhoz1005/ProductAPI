@@ -3,7 +3,7 @@ package com.api.product.dto;
 import com.api.product.entities.Product;
 import org.springframework.beans.BeanUtils;
 
-/* Data Transfer Object*/
+/* Data Transfer Object */
 public class ProductDTO {
 
     private Long id;
