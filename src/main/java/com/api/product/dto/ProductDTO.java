@@ -4,6 +4,7 @@ import com.api.product.entities.Product;
 import org.springframework.beans.BeanUtils;
 
 /* Data Transfer Object */
+
 public class ProductDTO {
 
     private Long id;
@@ -22,6 +23,8 @@ public class ProductDTO {
         BeanUtils.copyProperties(entity, this);
     }
 
+    /* Get Set */
+    
     public Long getId() {
 
         return id;

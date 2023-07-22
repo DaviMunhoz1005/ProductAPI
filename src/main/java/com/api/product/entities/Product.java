@@ -31,6 +31,8 @@ public class Product {
     @JsonProperty("quantity")
     private Integer quantityProduct;
 
+    /* Get Set */
+
     public Long getId() {
 
         return id;
@@ -62,12 +64,16 @@ public class Product {
     }
 
     public Integer getQuantityProduct() {
+
         return quantityProduct;
     }
 
     public void setQuantityProduct(Integer quantityProduct) {
+
         this.quantityProduct = quantityProduct;
     }
+
+    /* Equals HashCode ToString*/
 
     @Override
     public boolean equals(Object o) {
