@@ -18,7 +18,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    /* List of products */
+    /* List all of products */
     public List<ProductDTO> findAllProducts() {
 
         List<Product> result = productRepository.findAll();
