@@ -1,5 +1,6 @@
 package com.api.product.controller;
 
+import com.api.product.dto.ProductDTO;
 import com.api.product.entities.Product;
 import com.api.product.service.ProductService;
 import jakarta.validation.Valid;
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "products")
-    public @ResponseBody List<Product> findAllProducts() {
+    public @ResponseBody List<ProductDTO> findAllProducts() {
 
         return productService.findAllProducts();
     }
@@ -52,9 +53,9 @@ public class ProductController {
     }
 
     @GetMapping(value = "products/{id}")
-    public @ResponseBody Product findById(@PathVariable Long id) {
+    public @ResponseBody ProductDTO findByIdDto(@PathVariable Long id) {
 
-        return productService.findById(id);
+        return productService.findByIdDto(id);
     }
 
     @PutMapping(path = "products/{id}")

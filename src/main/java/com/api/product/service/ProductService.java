@@ -1,5 +1,6 @@
 package com.api.product.service;
 
+import com.api.product.dto.ProductDTO;
 import com.api.product.entities.Product;
 import com.api.product.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
@@ -18,9 +19,10 @@ public class ProductService {
     }
 
     /* List of products */
-    public List<Product> findAllProducts() {
+    public List<ProductDTO> findAllProducts() {
 
-        return productRepository.findAll();
+        List<Product> result = productRepository.findAll();
+        return result.stream().map(x -> new ProductDTO(x)).toList();
     }
 
     /* Add products */
@@ -30,6 +32,12 @@ public class ProductService {
     }
 
     /* Find products by code */
+    public ProductDTO findByIdDto(Long id) {
+
+        Product result = productRepository.findById(id).get();
+        return new ProductDTO(result);
+    }
+
     public Product findById(Long id) {
 
         return productRepository.findById(id).get();
