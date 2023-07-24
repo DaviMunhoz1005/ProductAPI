@@ -1,11 +1,14 @@
 package com.api.product.service;
 
-import com.api.product.dto.ProductDTO;
 import com.api.product.entities.Product;
 import com.api.product.exception.BadRequestException;
 import com.api.product.repository.ProductRepository;
+import com.api.product.requests.ProductPostRequestBody;
+import com.api.product.requests.ProductPutRequestbody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,25 +21,28 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     /* List all of products */
-    public List<ProductDTO> findAllProducts() {
+    public Page<Product> findAllProducts(Pageable pageable) {
 
-        List<Product> result = productRepository.findAll();
-        return result.stream().map(ProductDTO::new).toList();
+         return productRepository.findAll(pageable);
     }
 
     /* Add products */
     @Transactional
-    public Product addProduct(Product product) {
+    public Product addProduct(ProductPostRequestBody productPostRequestBody) {
 
+        Product product = Product.builder()
+                                 .name(productPostRequestBody.getName())
+                                 .value(productPostRequestBody.getValue())
+                                 .quantity(productPostRequestBody.getQuantity())
+                                 .build();
         return productRepository.save(product);
     }
 
-    /* Find products by code */
-    public ProductDTO findByIdDto(Long id) {
+    /* Find products by id */
+    public Product findById(Long id) {
 
-        Product result = productRepository.findById(id)
-                                          .orElseThrow(() -> new BadRequestException("Product not find"));
-        return new ProductDTO(result);
+        return productRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Product to delete was not found"));
     }
 
     public List<Product> findByName(String name) {
@@ -46,18 +52,16 @@ public class ProductService {
 
     /* Replace product */
     @Transactional
-    public Product replaceProduct(Long id, Product product) {
+    public void replaceProduct(Long id, ProductPutRequestbody productPutRequestbody) {
 
-        Product currentProduct = productRepository.findById(id)
-                                                  .orElseThrow(() -> new BadRequestException("Product to replace was not found"));
-        BeanUtils.copyProperties(product, currentProduct, "id");
-        return productRepository.save(currentProduct);
-    }
-
-    public Product findById(Long id) {
-
-        return productRepository.findById(id)
-                                .orElseThrow(() -> new BadRequestException("Product to delete was not found"));
+        Product savedProduct = findById(id);
+        Product product = Product.builder()
+                                 .name(productPutRequestbody.getName())
+                                 .value(productPutRequestbody.getValue())
+                                 .quantity(productPutRequestbody.getQuantity())
+                                 .build();
+        BeanUtils.copyProperties(product, savedProduct, "id");
+        productRepository.save(savedProduct);
     }
 
     /* Delete product */
