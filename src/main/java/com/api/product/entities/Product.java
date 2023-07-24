@@ -2,9 +2,10 @@ package com.api.product.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
-import java.util.Objects;
 
+import java.util.Objects;
 
 @Entity
 @Table(name = "Product")
@@ -22,10 +23,12 @@ public class Product {
 
     @Column(name = "value_product")
     @JsonProperty("value")
+    @DecimalMin(value = "1", message = "Please enter a valid value greater than 1")
     private double value;
 
     @Column(name = "quantity_product")
     @JsonProperty("quantity")
+    @DecimalMin(value = "0", message = "Please enter a valid quantity greater than 0")
     private Integer quantity;
 
     /* Get Set */
@@ -86,11 +89,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", nameProduct='" + name + '\'' +
-                ", valueProduct=" + value +
-                ", quantityProduct=" + quantity +
-                '}';
+        return "Product{" + "id=" + id + ", nameProduct='" + name + '\''
+                + ", valueProduct=" + value + ", quantityProduct=" + quantity + '}';
     }
 }
