@@ -2,10 +2,7 @@ package com.api.product.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
 import java.util.Objects;
 
 
@@ -21,15 +18,15 @@ public class Product {
     @Column(name = "name_product")
     @JsonProperty("name")
     @NotEmpty(message = "Enter a name for the product")
-    private String nameProduct;
+    private String name;
 
     @Column(name = "value_product")
     @JsonProperty("value")
-    private double valueProduct;
+    private double value;
 
     @Column(name = "quantity_product")
     @JsonProperty("quantity")
-    private Integer quantityProduct;
+    private Integer quantity;
 
     /* Get Set */
 
@@ -43,34 +40,34 @@ public class Product {
         this.id = id;
     }
 
-    public String getNameProduct() {
+    public String getName() {
 
-        return nameProduct;
+        return name;
     }
 
-    public void setNameProduct(String nameProduct) {
+    public void setName(String name) {
 
-        this.nameProduct = nameProduct;
+        this.name = name;
     }
 
-    public double getValueProduct() {
+    public double getValue() {
 
-        return valueProduct;
+        return value;
     }
 
-    public void setValueProduct(double valueProduct) {
+    public void setValue(double value) {
 
-        this.valueProduct = valueProduct;
+        this.value = value;
     }
 
-    public Integer getQuantityProduct() {
+    public Integer getQuantity() {
 
-        return quantityProduct;
+        return quantity;
     }
 
-    public void setQuantityProduct(Integer quantityProduct) {
+    public void setQuantity(Integer quantity) {
 
-        this.quantityProduct = quantityProduct;
+        this.quantity = quantity;
     }
 
     /* Equals HashCode ToString*/
@@ -79,21 +76,21 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Product product)) return false;
-        return Objects.equals(id, product.id) && Objects.equals(nameProduct, product.nameProduct);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameProduct);
+        return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", nameProduct='" + nameProduct + '\'' +
-                ", valueProduct=" + valueProduct +
-                ", quantityProduct=" + quantityProduct +
+                ", nameProduct='" + name + '\'' +
+                ", valueProduct=" + value +
+                ", quantityProduct=" + quantity +
                 '}';
     }
 }

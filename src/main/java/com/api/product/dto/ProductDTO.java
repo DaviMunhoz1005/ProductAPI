@@ -9,11 +9,11 @@ public class ProductDTO {
 
     private Long id;
 
-    private String nameProduct;
+    private String name;
 
-    private double valueProduct;
+    private double value;
 
-    private Integer quantityProduct;
+    private Integer quantity;
 
     public ProductDTO() {
     }
@@ -35,33 +35,33 @@ public class ProductDTO {
         this.id = id;
     }
 
-    public String getNameProduct() {
+    public String getName() {
 
-        return nameProduct;
+        return name;
     }
 
-    public void setNameProduct(String nameProduct) {
+    public void setName(String name) {
 
-        this.nameProduct = nameProduct;
+        this.name = name;
     }
 
-    public double getValueProduct() {
+    public double getValue() {
 
-        return valueProduct;
+        return value;
     }
 
-    public void setValueProduct(double valueProduct) {
+    public void setValue(double value) {
 
-        this.valueProduct = valueProduct;
+        this.value = value;
     }
 
-    public Integer getQuantityProduct() {
+    public Integer getQuantity() {
 
-        return quantityProduct;
+        return quantity;
     }
 
-    public void setQuantityProduct(Integer quantityProduct) {
+    public void setQuantity(Integer quantity) {
 
-        this.quantityProduct = quantityProduct;
+        this.quantity = quantity;
     }
 }

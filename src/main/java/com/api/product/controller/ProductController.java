@@ -4,69 +4,75 @@ import com.api.product.dto.ProductDTO;
 import com.api.product.entities.Product;
 import com.api.product.service.ProductService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-
-        this.productService = productService;
-    }
-
     /* Request Start API */
     @GetMapping(path = "start")
-    public @ResponseBody String start() {
+    public @ResponseBody ResponseEntity<String> start() {
 
-        return "Welcome to products API!";
+        return new ResponseEntity<>("Welcome to products API!", HttpStatus.OK);
     }
 
     /* Request About API */
     @GetMapping(path = "about")
-    public @ResponseBody String about() {
+    public @ResponseBody ResponseEntity<String> about() {
 
-        return "About the API...";
+        return new ResponseEntity<>("About the API...", HttpStatus.OK);
     }
 
     /* Request Contact API */
     @GetMapping(path = "contact")
-    public @ResponseBody String contact() {
+    public @ResponseBody ResponseEntity<String> contact() {
 
-        return "Contact us :)";
+        return new ResponseEntity<>("Contact us :)", HttpStatus.OK);
     }
 
     @GetMapping(path = "products")
-    public @ResponseBody List<ProductDTO> findAllProducts() {
+    public @ResponseBody ResponseEntity<List<ProductDTO>> findAllProducts() {
 
-        return productService.findAllProducts();
+        return new ResponseEntity<>(productService.findAllProducts(), HttpStatus.OK);
     }
 
     @PostMapping(path = "products")
-    public Product addProduct(@Valid @RequestBody Product product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
 
-        return productService.addProduct(product);
+        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "products/{id}")
-    public @ResponseBody ProductDTO findByIdDto(@PathVariable Long id) {
+    @GetMapping(path = "products/{id}")
+    public @ResponseBody ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
 
-        return productService.findByIdDto(id);
+        return new ResponseEntity<>(productService.findByIdDto(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "products/find")
+    public @ResponseBody ResponseEntity<List<Product>> findByName(@RequestParam String name) {
+
+        return new ResponseEntity<>(productService.findByName(name), HttpStatus.OK);
     }
 
     @PutMapping(path = "products/{id}")
-    public Product modifyProduct(@RequestBody Product product, @PathVariable Long id) {
+    public ResponseEntity<Product> replaceProduct(@RequestBody Product product, @PathVariable Long id) {
 
-        return productService.modifyProduct(id, product);
+        return new ResponseEntity<>(productService.replaceProduct(id, product), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(path = "products/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 
         productService.deleteProduct(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
