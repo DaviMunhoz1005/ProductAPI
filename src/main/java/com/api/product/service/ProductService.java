@@ -21,9 +21,14 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     /* List all of products */
-    public Page<Product> findAllProducts(Pageable pageable) {
+    public Page<Product> listAllProductsPageable(Pageable pageable) {
 
          return productRepository.findAll(pageable);
+    }
+
+    public List<Product> listAllProducts() {
+
+        return productRepository.findAll();
     }
 
     /* Add products */

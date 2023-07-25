@@ -21,37 +21,16 @@ public class ProductController {
 
     private final ProductService productService;
 
-    /* Request Start API */
-    @GetMapping(path = "start")
-    public @ResponseBody ResponseEntity<String> start() {
-
-        return new ResponseEntity<>("Welcome to products API!", HttpStatus.OK);
-    }
-
-    /* Request About API */
-    @GetMapping(path = "about")
-    public @ResponseBody ResponseEntity<String> about() {
-
-        return new ResponseEntity<>("About the API...", HttpStatus.OK);
-    }
-
-    /* Request Contact API */
-    @GetMapping(path = "contact")
-    public @ResponseBody ResponseEntity<String> contact() {
-
-        return new ResponseEntity<>("Contact us :)", HttpStatus.OK);
-    }
-
     @GetMapping(path = "products")
-    public @ResponseBody ResponseEntity<Page<Product>> findAllProducts(Pageable pageable) {
+    public @ResponseBody ResponseEntity<Page<Product>> listAllProductsPageable(Pageable pageable) {
 
-        return new ResponseEntity<>(productService.findAllProducts(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(productService.listAllProductsPageable(pageable), HttpStatus.OK);
     }
 
-    @PostMapping(path = "products")
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductPostRequestBody product) {
+    @GetMapping(path = "products/all")
+    public @ResponseBody ResponseEntity<List<Product>> listAllProducts() {
 
-        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.listAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping(path = "products/{id}")
@@ -64,6 +43,12 @@ public class ProductController {
     public @ResponseBody ResponseEntity<List<Product>> findByName(@RequestParam String name) {
 
         return new ResponseEntity<>(productService.findByName(name), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "products")
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductPostRequestBody product) {
+
+        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "products/{id}")

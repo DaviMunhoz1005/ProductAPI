@@ -11,7 +11,7 @@
 	<groupId>com.api</groupId>
 	<artifactId>produto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>produto</name>
+	<name>product</name>
 	<description>API de produtos utilizando Spring</description>
 	<properties>
 		<java.version>17</java.version>
@@ -56,7 +56,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

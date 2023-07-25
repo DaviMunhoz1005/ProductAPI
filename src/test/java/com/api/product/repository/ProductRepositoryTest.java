@@ -1,6 +1,7 @@
 package com.api.product.repository;
 
 import com.api.product.entities.Product;
+import com.api.product.util.ProductCreator;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
@@ -24,7 +25,7 @@ class ProductRepositoryTest {
     @DisplayName("Save persists product when successful")
     void save_PesrsistProduct_WhenSuccessful() {
 
-        Product productToBeSaved = createProduct();
+        Product productToBeSaved = ProductCreator.createProductToBeSaved();
         Product productSaved = this.productRepository.save(productToBeSaved);
 
         Assertions.assertThat(productSaved).isNotNull();
@@ -38,7 +39,7 @@ class ProductRepositoryTest {
     @DisplayName("Save updates product when successful")
     void save_UpdatesProduct_WhenSuccessful() {
 
-        Product productToBeSaved = createProduct();
+        Product productToBeSaved = ProductCreator.createProductToBeSaved();
         Product productSaved = this.productRepository.save(productToBeSaved);
         productSaved.setName("Linguiça");
         Product productUpdated = this.productRepository.save(productSaved);
@@ -56,7 +57,7 @@ class ProductRepositoryTest {
     @DisplayName("Delete removes product when successful")
     void delete_RemovesProduct_WhenSuccessful() {
 
-        Product productToBeSaved = createProduct();
+        Product productToBeSaved = ProductCreator.createProductToBeSaved();
         Product productSaved = this.productRepository.save(productToBeSaved);
 
         this.productRepository.delete(productSaved);
@@ -69,14 +70,14 @@ class ProductRepositoryTest {
     @DisplayName("Find by name returns list of product when successful")
     void findByName_ReturnsListOfProduct_WhenSuccessful() {
 
-        Product productToBeSaved = createProduct();
+        Product productToBeSaved = ProductCreator.createProductToBeSaved();
         Product productSaved = this.productRepository.save(productToBeSaved);
 
         String name = productSaved.getName();
         List<Product> products = this.productRepository.findByName(name);
 
         Assertions.assertThat(products).isNotEmpty()
-                                       .contains(productSaved);
+                .contains(productSaved);
     }
 
     @Test
@@ -97,12 +98,5 @@ class ProductRepositoryTest {
                 .withMessageContaining("Enter a name for the product");
     }
 
-    private Product createProduct() {
 
-        return Product.builder()
-                .name("Arroz")
-                .value(10.5)
-                .quantity(13)
-                .build();
-    }
 }

@@ -2,9 +2,15 @@ package com.api.product.requests;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductPutRequestbody {
 
     @NotEmpty(message = "Enter a name for the product")
