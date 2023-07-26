@@ -5,11 +5,16 @@ import com.api.product.exception.BadRequestException;
 import com.api.product.repository.ProductRepository;
 import com.api.product.requests.ProductPostRequestBody;
 import com.api.product.requests.ProductPutRequestbody;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.BeanUtils;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,7 +28,7 @@ public class ProductService {
     /* List all of products */
     public Page<Product> listAllProductsPageable(Pageable pageable) {
 
-         return productRepository.findAll(pageable);
+        return productRepository.findAll(pageable);
     }
 
     public List<Product> listAllProducts() {
@@ -36,10 +41,10 @@ public class ProductService {
     public Product addProduct(ProductPostRequestBody productPostRequestBody) {
 
         Product product = Product.builder()
-                                 .name(productPostRequestBody.getName())
-                                 .value(productPostRequestBody.getValue())
-                                 .quantity(productPostRequestBody.getQuantity())
-                                 .build();
+                .name(productPostRequestBody.getName())
+                .value(productPostRequestBody.getValue())
+                .quantity(productPostRequestBody.getQuantity())
+                .build();
         return productRepository.save(product);
     }
 
@@ -47,7 +52,7 @@ public class ProductService {
     public Product findById(Long id) {
 
         return productRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Product to delete was not found"));
+                .orElseThrow(() -> new BadRequestException("Product not found"));
     }
 
     public List<Product> findByName(String name) {
@@ -61,10 +66,10 @@ public class ProductService {
 
         Product savedProduct = findById(id);
         Product product = Product.builder()
-                                 .name(productPutRequestbody.getName())
-                                 .value(productPutRequestbody.getValue())
-                                 .quantity(productPutRequestbody.getQuantity())
-                                 .build();
+                .name(productPutRequestbody.getName())
+                .value(productPutRequestbody.getValue())
+                .quantity(productPutRequestbody.getQuantity())
+                .build();
         BeanUtils.copyProperties(product, savedProduct, "id");
         productRepository.save(savedProduct);
     }

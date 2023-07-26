@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
@@ -142,8 +143,8 @@ class ProductServiceTest {
     @DisplayName("replace updates product when successful")
     void replace_UpdatesProduct_WhenSuccessful() {
 
-        Assertions.assertThatCode(() ->productService.replaceProduct(1L,
-                ProductPutRequestBodyCreator.createProductPutRequestBody()))
+        Assertions.assertThatCode(() -> productService.replaceProduct(1L,
+                        ProductPutRequestBodyCreator.createProductPutRequestBody()))
                 .doesNotThrowAnyException();
     }
 

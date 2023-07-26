@@ -1,9 +1,12 @@
 package com.api.product.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+
 import lombok.Builder;
 
 import java.util.Objects;
