@@ -28,9 +28,11 @@ Find a product by name
 
 - Delete a product
 
-## Photos from swagger-ui.html:
+## Photos from swagger-ui.html
+<img src="https://github.com/DaviMunhoz1005/ProductAPI/blob/main/OpenAPI.png" width="1000" /> 
 
-<img src="" width="500" /> 
+### Schemas:
+<img src="https://github.com/DaviMunhoz1005/ProductAPI/blob/main/OpenAPI-Schemas.png" width="1000" /> 
 
 ## Dependencies used:
 ```xml
