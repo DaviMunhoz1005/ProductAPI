@@ -2,6 +2,7 @@ package com.api.product.config;
 
 import com.api.product.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,12 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 @SuppressWarnings("java:S5344")
 @Log4j2
 public class SecurityConfig {
 
     private final UserService userService;
-
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
 
     @Bean
     public DefaultSecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,6 +35,7 @@ public class SecurityConfig {
         http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/api/products/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/products/**").hasRole("USER")
+                .requestMatchers("/actuator/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -53,7 +52,7 @@ public class SecurityConfig {
         auth.inMemoryAuthentication()
                 .withUser("davi2")
                 .password(passwordEncoder.encode("1005"))
-                .roles("ADMIN")
+                .roles("ADMIN, USER")
                 .and()
                 .withUser("teste2")
                 .password(passwordEncoder.encode("1005"))
