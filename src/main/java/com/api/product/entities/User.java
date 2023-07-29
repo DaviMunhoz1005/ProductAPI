@@ -1,27 +1,24 @@
 package com.api.product.entities;
 
 import jakarta.persistence.*;
-
 import jakarta.validation.constraints.NotEmpty;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
 @Entity
 @Table(name = "Product.User")
 @Builder
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -80,5 +77,17 @@ public class User implements UserDetails {
     public boolean isEnabled() {
 
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(authorities, user.authorities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, username, password, authorities);
     }
 }

@@ -30,19 +30,20 @@ public class SecurityConfig {
     private final UserService userService;
 
     @Bean
-    public DefaultSecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public DefaultSecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        http.csrf().disable().authorizeHttpRequests()
+        httpSecurity
+                .csrf().disable()
+                .authorizeHttpRequests()
                 .requestMatchers("/api/products/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/products/**").hasRole("USER")
                 .requestMatchers("/actuator/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .and()
                 .httpBasic();
-        return http.build();
+        return httpSecurity.build();
     }
 
     @Autowired

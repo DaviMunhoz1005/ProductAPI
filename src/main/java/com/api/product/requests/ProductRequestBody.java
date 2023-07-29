@@ -13,17 +13,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductPutRequestbody {
+public class ProductRequestBody {
 
     @NotEmpty(message = "Enter a name for the product")
-    @Schema(description = "This is the product name", example = "Stove")
+    @Schema(description = "This is the product name", example = "Refrigerator")
     private String name;
 
     @DecimalMin(value = "1", message = "Please enter a valid value greater than 1")
-    @Schema(description = "This is the product value", example = "5200.71")
+    @Schema(description = "This is the product value", example = "1700.25")
     private double value;
 
     @DecimalMin(value = "0", message = "Please enter a valid quantity greater than 0")
-    @Schema(description = "This is the product quantity", example = "45")
+    @Schema(description = "This is the product quantity", example = "54")
     private Integer quantity;
 }

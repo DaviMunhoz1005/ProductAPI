@@ -1,10 +1,10 @@
 package com.api.product.service;
 
+import com.api.product.controller.ProductController;
 import com.api.product.entities.Product;
 import com.api.product.exception.BadRequestException;
 import com.api.product.repository.ProductRepository;
-import com.api.product.requests.ProductPostRequestBody;
-import com.api.product.requests.ProductPutRequestbody;
+import com.api.product.requests.ProductRequestBody;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,17 +33,18 @@ public class ProductService {
 
     public List<Product> listAllProducts() {
 
+
         return productRepository.findAll();
     }
 
     /* Add products */
     @Transactional
-    public Product addProduct(ProductPostRequestBody productPostRequestBody) {
+    public Product addProduct(ProductRequestBody productRequestBody) {
 
         Product product = Product.builder()
-                .name(productPostRequestBody.getName())
-                .value(productPostRequestBody.getValue())
-                .quantity(productPostRequestBody.getQuantity())
+                .name(productRequestBody.getName())
+                .value(productRequestBody.getValue())
+                .quantity(productRequestBody.getQuantity())
                 .build();
         return productRepository.save(product);
     }
@@ -62,13 +63,13 @@ public class ProductService {
 
     /* Replace product */
     @Transactional
-    public void replaceProduct(Long id, ProductPutRequestbody productPutRequestbody) {
+    public void replaceProduct(Long id, ProductRequestBody productRequestbody) {
 
         Product savedProduct = findById(id);
         Product product = Product.builder()
-                .name(productPutRequestbody.getName())
-                .value(productPutRequestbody.getValue())
-                .quantity(productPutRequestbody.getQuantity())
+                .name(productRequestbody.getName())
+                .value(productRequestbody.getValue())
+                .quantity(productRequestbody.getQuantity())
                 .build();
         BeanUtils.copyProperties(product, savedProduct, "id");
         productRepository.save(savedProduct);

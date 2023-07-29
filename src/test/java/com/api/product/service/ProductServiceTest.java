@@ -5,8 +5,7 @@ import com.api.product.entities.Product;
 import com.api.product.exception.BadRequestException;
 import com.api.product.repository.ProductRepository;
 import com.api.product.util.ProductCreator;
-import com.api.product.util.ProductPostRequestBodyCreator;
-import com.api.product.util.ProductPutRequestBodyCreator;
+import com.api.product.util.ProductRequestBodyCreator;
 
 import org.assertj.core.api.Assertions;
 
@@ -134,7 +133,7 @@ class ProductServiceTest {
     @DisplayName("add product return product when successful")
     void addProduct_ReturnProduct_WhenSuccessful() {
 
-        Product product = productService.addProduct(ProductPostRequestBodyCreator.createProductPostRequestBody());
+        Product product = productService.addProduct(ProductRequestBodyCreator.createProductRequestBody());
 
         Assertions.assertThat(product).isNotNull().isEqualTo(ProductCreator.createValidProduct());
     }
@@ -144,7 +143,7 @@ class ProductServiceTest {
     void replace_UpdatesProduct_WhenSuccessful() {
 
         Assertions.assertThatCode(() -> productService.replaceProduct(1L,
-                        ProductPutRequestBodyCreator.createProductPutRequestBody()))
+                        ProductRequestBodyCreator.createProductRequestBody()))
                 .doesNotThrowAnyException();
     }
 

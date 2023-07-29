@@ -1,12 +1,12 @@
 package com.api.product.util;
 
-import com.api.product.requests.ProductPostRequestBody;
+import com.api.product.requests.ProductRequestBody;
 
-public class ProductPostRequestBodyCreator {
+public class ProductRequestBodyCreator {
 
-    public static ProductPostRequestBody createProductPostRequestBody() {
+    public static ProductRequestBody createProductRequestBody() {
 
-        return ProductPostRequestBody.builder()
+        return ProductRequestBody.builder()
                 .name(ProductCreator.createProductToBeSaved().getName())
                 .value(ProductCreator.createProductToBeSaved().getValue())
                 .quantity(ProductCreator.createProductToBeSaved().getQuantity())

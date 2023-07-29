@@ -4,11 +4,9 @@ import com.api.product.entities.Product;
 import com.api.product.entities.User;
 import com.api.product.repository.ProductRepository;
 import com.api.product.repository.UserRepository;
-import com.api.product.requests.ProductPostRequestBody;
-import com.api.product.requests.ProductPutRequestbody;
+import com.api.product.requests.ProductRequestBody;
 import com.api.product.util.ProductCreator;
-import com.api.product.util.ProductPostRequestBodyCreator;
-import com.api.product.util.ProductPutRequestBodyCreator;
+import com.api.product.util.ProductRequestBodyCreator;
 import com.api.product.wrapper.PageableResponse;
 
 import org.assertj.core.api.Assertions;
@@ -187,11 +185,11 @@ class ProductControllerIT {
     @DisplayName("add product return product when successful")
     void addProduct_ReturnProduct_WhenSuccessful() {
 
-        userRepository.save(ADMIN);
+        userRepository.save(USER);
 
-        ProductPostRequestBody productPostRequestBody = ProductPostRequestBodyCreator.createProductPostRequestBody();
-        ResponseEntity<Product> productResponseEntity = testRestTemplateRoleAdmin.postForEntity("/api/products/admin",
-                productPostRequestBody, Product.class);
+        ProductRequestBody productRequestBody = ProductRequestBodyCreator.createProductRequestBody();
+        ResponseEntity<Product> productResponseEntity = testRestTemplateRoleAdmin.postForEntity("/api/products",
+                productRequestBody, Product.class);
 
         Assertions.assertThat(productResponseEntity).isNotNull();
         Assertions.assertThat(productResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -212,7 +210,7 @@ class ProductControllerIT {
 
         Long expectedId = savedProduct.getId();
 
-        ProductPutRequestbody productPutRequestBody = ProductPutRequestBodyCreator.createProductPutRequestBody();
+        ProductRequestBody productRequestBody = ProductRequestBodyCreator.createProductRequestBody();
         ResponseEntity<Void> productResponseEntity = testRestTemplateRoleUser.exchange("/api/products/{id}",
                 HttpMethod.PUT, new HttpEntity<>(savedProduct), Void.class, expectedId);
 

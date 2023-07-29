@@ -2,14 +2,12 @@ package com.api.product.controller;
 
 import com.api.product.entities.Product;
 
-import com.api.product.requests.ProductPostRequestBody;
-import com.api.product.requests.ProductPutRequestbody;
+import com.api.product.requests.ProductRequestBody;
 
 import com.api.product.service.ProductService;
 
 import com.api.product.util.ProductCreator;
-import com.api.product.util.ProductPostRequestBodyCreator;
-import com.api.product.util.ProductPutRequestBodyCreator;
+import com.api.product.util.ProductRequestBodyCreator;
 
 import org.assertj.core.api.Assertions;
 
@@ -30,6 +28,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 class ProductControllerTest {
@@ -56,11 +55,11 @@ class ProductControllerTest {
         BDDMockito.when(productServiceMock.findByName(ArgumentMatchers.anyString()))
                 .thenReturn(List.of(ProductCreator.createValidProduct()));
 
-        BDDMockito.when(productServiceMock.addProduct(ArgumentMatchers.any(ProductPostRequestBody.class)))
+        BDDMockito.when(productServiceMock.addProduct(ArgumentMatchers.any(ProductRequestBody.class)))
                 .thenReturn(ProductCreator.createValidProduct());
 
         BDDMockito.doNothing().when(productServiceMock).replaceProduct(ArgumentMatchers.anyLong(),
-                ArgumentMatchers.any(ProductPutRequestbody.class));
+                ArgumentMatchers.any(ProductRequestBody.class));
 
         BDDMockito.doNothing().when(productServiceMock).deleteProduct(ArgumentMatchers.anyLong());
     }
@@ -127,7 +126,7 @@ class ProductControllerTest {
     @DisplayName("add product return product when successful")
     void addProduct_ReturnProduct_WhenSuccessful() {
 
-        Product product = productController.addProduct(ProductPostRequestBodyCreator.createProductPostRequestBody())
+        Product product = productController.addProduct(ProductRequestBodyCreator.createProductRequestBody())
                 .getBody();
 
         Assertions.assertThat(product).isNotNull().isEqualTo(ProductCreator.createValidProduct());
@@ -139,7 +138,7 @@ class ProductControllerTest {
 
         Long expectedId = ProductCreator.createValidUpdatedProduct().getId();
         ResponseEntity<Void> product = productController.replaceProduct(
-                ProductPutRequestBodyCreator.createProductPutRequestBody(), expectedId);
+                ProductRequestBodyCreator.createProductRequestBody(), expectedId);
 
         Assertions.assertThat(product).isNotNull();
         Assertions.assertThat(product.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);

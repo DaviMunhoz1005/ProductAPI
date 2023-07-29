@@ -2,8 +2,7 @@ package com.api.product.controller;
 
 import com.api.product.entities.Product;
 
-import com.api.product.requests.ProductPostRequestBody;
-import com.api.product.requests.ProductPutRequestbody;
+import com.api.product.requests.ProductRequestBody;
 
 import com.api.product.service.ProductService;
 
@@ -28,6 +27,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api")
@@ -113,7 +115,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "If the value is equal to or less than 0"),
             @ApiResponse(responseCode = "400", description = "If quantity is less than 0")
     })
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductPostRequestBody product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductRequestBody product) {
 
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
@@ -126,7 +128,7 @@ public class ProductController {
             @ApiResponse(responseCode = "204", description = "Successful Operation"),
             @ApiResponse(responseCode = "400", description = "Product not found in database")
     })
-    public ResponseEntity<Void> replaceProduct(@RequestBody ProductPutRequestbody product, @PathVariable Long id) {
+    public ResponseEntity<Void> replaceProduct(@RequestBody ProductRequestBody product, @PathVariable Long id) {
 
         productService.replaceProduct(id, product);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
