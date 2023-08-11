@@ -133,7 +133,7 @@ class ProductServiceTest {
     @DisplayName("add product return product when successful")
     void addProduct_ReturnProduct_WhenSuccessful() {
 
-        Product product = productService.addProduct(ProductRequestBodyCreator.createProductRequestBody());
+        Product product = productService.addProduct(ProductRequestBodyCreator.createProductDTO());
 
         Assertions.assertThat(product).isNotNull().isEqualTo(ProductCreator.createValidProduct());
     }
@@ -143,7 +143,7 @@ class ProductServiceTest {
     void replace_UpdatesProduct_WhenSuccessful() {
 
         Assertions.assertThatCode(() -> productService.replaceProduct(1L,
-                        ProductRequestBodyCreator.createProductRequestBody()))
+                        ProductRequestBodyCreator.createProductDTO()))
                 .doesNotThrowAnyException();
     }
 

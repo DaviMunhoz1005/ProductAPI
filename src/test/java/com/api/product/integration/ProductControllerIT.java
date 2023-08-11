@@ -4,7 +4,7 @@ import com.api.product.entities.Product;
 import com.api.product.entities.User;
 import com.api.product.repository.ProductRepository;
 import com.api.product.repository.UserRepository;
-import com.api.product.requests.ProductRequestBody;
+import com.api.product.dto.ProductDTO;
 import com.api.product.util.ProductCreator;
 import com.api.product.util.ProductRequestBodyCreator;
 import com.api.product.wrapper.PageableResponse;
@@ -187,9 +187,9 @@ class ProductControllerIT {
 
         userRepository.save(USER);
 
-        ProductRequestBody productRequestBody = ProductRequestBodyCreator.createProductRequestBody();
+        ProductDTO productDTO = ProductRequestBodyCreator.createProductDTO();
         ResponseEntity<Product> productResponseEntity = testRestTemplateRoleAdmin.postForEntity("/api/products",
-                productRequestBody, Product.class);
+                productDTO, Product.class);
 
         Assertions.assertThat(productResponseEntity).isNotNull();
         Assertions.assertThat(productResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -210,7 +210,7 @@ class ProductControllerIT {
 
         Long expectedId = savedProduct.getId();
 
-        ProductRequestBody productRequestBody = ProductRequestBodyCreator.createProductRequestBody();
+        ProductDTO productDTO = ProductRequestBodyCreator.createProductDTO();
         ResponseEntity<Void> productResponseEntity = testRestTemplateRoleUser.exchange("/api/products/{id}",
                 HttpMethod.PUT, new HttpEntity<>(savedProduct), Void.class, expectedId);
 

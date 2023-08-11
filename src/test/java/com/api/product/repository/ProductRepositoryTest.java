@@ -28,7 +28,7 @@ class ProductRepositoryTest {
 
     @Test
     @DisplayName("Save persists product when successful")
-    void save_PesrsistProduct_WhenSuccessful() {
+    void save_PersistProduct_WhenSuccessful() {
 
         Product productToBeSaved = ProductCreator.createProductToBeSaved();
         Product productSaved = this.productRepository.save(productToBeSaved);

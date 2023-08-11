@@ -1,10 +1,9 @@
 package com.api.product.service;
 
-import com.api.product.controller.ProductController;
 import com.api.product.entities.Product;
 import com.api.product.exception.BadRequestException;
 import com.api.product.repository.ProductRepository;
-import com.api.product.requests.ProductRequestBody;
+import com.api.product.dto.ProductDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,12 +38,12 @@ public class ProductService {
 
     /* Add products */
     @Transactional
-    public Product addProduct(ProductRequestBody productRequestBody) {
+    public Product addProduct(ProductDTO productDTO) {
 
         Product product = Product.builder()
-                .name(productRequestBody.getName())
-                .value(productRequestBody.getValue())
-                .quantity(productRequestBody.getQuantity())
+                .name(productDTO.name())
+                .value(productDTO.value())
+                .quantity(productDTO.quantity())
                 .build();
         return productRepository.save(product);
     }
@@ -63,16 +62,70 @@ public class ProductService {
 
     /* Replace product */
     @Transactional
-    public void replaceProduct(Long id, ProductRequestBody productRequestbody) {
+    public void replaceProduct(Long id, ProductDTO productDTO) {
 
         Product savedProduct = findById(id);
-        Product product = Product.builder()
-                .name(productRequestbody.getName())
-                .value(productRequestbody.getValue())
-                .quantity(productRequestbody.getQuantity())
-                .build();
-        BeanUtils.copyProperties(product, savedProduct, "id");
-        productRepository.save(savedProduct);
+        if((!productDTO.name().isEmpty()) && (productDTO.value() != 0) && (productDTO.quantity() != 0)){
+
+            Product product = Product.builder()
+                    .name(productDTO.name())
+                    .value(productDTO.value())
+                    .quantity(productDTO.quantity())
+                    .build();
+
+            BeanUtils.copyProperties(product, savedProduct, "id");
+            productRepository.save(savedProduct);
+        }else if((productDTO.name().isEmpty()) && (productDTO.value() != 0) && (productDTO.quantity() != 0)) {
+
+            Product product = Product.builder()
+                    .name(savedProduct.getName())
+                    .value(productDTO.value())
+                    .quantity(productDTO.quantity())
+                    .build();
+
+            BeanUtils.copyProperties(product, savedProduct, "id");
+            productRepository.save(savedProduct);
+        }else if((!productDTO.name().isEmpty()) && (productDTO.value() == 0) && (productDTO.quantity() != 0)) {
+
+            Product product = Product.builder()
+                    .name(productDTO.name())
+                    .value(savedProduct.getValue())
+                    .quantity(productDTO.quantity())
+                    .build();
+
+            BeanUtils.copyProperties(product, savedProduct, "id");
+            productRepository.save(savedProduct);
+        }else if((!productDTO.name().isEmpty()) && (productDTO.value() == 0) && (productDTO.quantity() == 0)) {
+
+            Product product = Product.builder()
+                    .name(productDTO.name())
+                    .value(savedProduct.getValue())
+                    .quantity(savedProduct.getQuantity())
+                    .build();
+
+            BeanUtils.copyProperties(product, savedProduct, "id");
+            productRepository.save(savedProduct);
+        }else if((!productDTO.name().isEmpty()) && (productDTO.value() != 0) && (productDTO.quantity() == 0)) {
+
+            Product product = Product.builder()
+                    .name(productDTO.name())
+                    .value(productDTO.value())
+                    .quantity(savedProduct.getQuantity())
+                    .build();
+
+            BeanUtils.copyProperties(product, savedProduct, "id");
+            productRepository.save(savedProduct);
+        }else if((productDTO.name().isEmpty()) && (productDTO.value() == 0) && (productDTO.quantity() == 0)) {
+
+            Product product = Product.builder()
+                    .name(savedProduct.getName())
+                    .value(savedProduct.getValue())
+                    .quantity(savedProduct.getQuantity())
+                    .build();
+
+            BeanUtils.copyProperties(product, savedProduct, "id");
+            productRepository.save(savedProduct);
+        }
     }
 
     /* Delete product */

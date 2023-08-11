@@ -2,7 +2,7 @@ package com.api.product.controller;
 
 import com.api.product.entities.Product;
 
-import com.api.product.requests.ProductRequestBody;
+import com.api.product.dto.ProductDTO;
 
 import com.api.product.service.ProductService;
 
@@ -51,17 +51,42 @@ public class ProductController {
     public @ResponseBody ResponseEntity<Page<Product>> listAllProductsPageable(@ParameterObject
                                                                                Pageable pageable) {
 
-        return new ResponseEntity<>(productService.listAllProductsPageable(pageable), HttpStatus.OK);
+        Page<Product> productList = productService.listAllProductsPageable(pageable);
+        if(productList.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+
+            for (Product product : productList) {
+
+                long id = product.getId();
+                product.add(linkTo(methodOn(ProductController.class).findById(id)).withRel("Product Description"));
+            }
+            return new ResponseEntity<>(productList, HttpStatus.OK);
+        }
     }
 
     @GetMapping(path = "products/all")
     @Operation(summary = "List all registered products", tags = {"User and administrator have access"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful Operation")
+            @ApiResponse(responseCode = "200", description = "Successful Operation"),
+            @ApiResponse(responseCode = "400", description = "List of products not found")
     })
     public @ResponseBody ResponseEntity<List<Product>> listAllProducts() {
 
-        return new ResponseEntity<>(productService.listAllProducts(), HttpStatus.OK);
+        List<Product> productList =  productService.listAllProducts();
+        if(productList.isEmpty()) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+
+            for (Product product : productList) {
+
+                long id = product.getId();
+                product.add(linkTo(methodOn(ProductController.class).findById(id)).withRel("Product Description"));
+            }
+            return new ResponseEntity<>(productList, HttpStatus.OK);
+        }
     }
 
     @GetMapping(path = "products/{id}")
@@ -74,7 +99,9 @@ public class ProductController {
     })
     public @ResponseBody ResponseEntity<Product> findById(@PathVariable Long id) {
 
-        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
+       Product product = productService.findById(id);
+       product.add(linkTo(methodOn(ProductController.class).listAllProducts()).withRel("List of products"));
+       return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping(path = "products/admin/{id}")
@@ -115,7 +142,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "If the value is equal to or less than 0"),
             @ApiResponse(responseCode = "400", description = "If quantity is less than 0")
     })
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductRequestBody product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO product) {
 
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
@@ -128,7 +155,7 @@ public class ProductController {
             @ApiResponse(responseCode = "204", description = "Successful Operation"),
             @ApiResponse(responseCode = "400", description = "Product not found in database")
     })
-    public ResponseEntity<Void> replaceProduct(@RequestBody ProductRequestBody product, @PathVariable Long id) {
+    public ResponseEntity<Void> replaceProduct(@RequestBody ProductDTO product, @PathVariable Long id) {
 
         productService.replaceProduct(id, product);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -21,7 +21,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "Product")
 @Builder
-public class Product implements Serializable {
+public class Product extends RepresentationModel<Product> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class Product implements Serializable {
 
     @Column(name = "value_product")
     @JsonProperty("value")
-    @DecimalMin(value = "1", message = "Please enter a valid value greater than 1")
+    @DecimalMin(value = "0.10", message = "Please enter a valid value greater than 0.20")
     private double value;
 
     @Column(name = "quantity_product")
