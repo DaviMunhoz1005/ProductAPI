@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serial;
@@ -18,6 +16,9 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Product")
 @Builder
@@ -46,16 +47,6 @@ public class Product extends RepresentationModel<Product> implements Serializabl
     @DecimalMin(value = "0", message = "Please enter a valid quantity greater than 0")
     private Integer quantity;
 
-    public Product() {
-    }
-
-    public Product(Long id, String name, double value, Integer quantity) {
-        this.id = id;
-        this.name = name;
-        this.value = value;
-        this.quantity = quantity;
-    }
-
     /* Equals HashCode ToString*/
     @Override
     public boolean equals(Object o) {
@@ -67,11 +58,5 @@ public class Product extends RepresentationModel<Product> implements Serializabl
     @Override
     public int hashCode() {
         return Objects.hash(id, name, value, quantity);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" + "id=" + id + ", nameProduct='" + name + '\''
-                + ", valueProduct=" + value + ", quantityProduct=" + quantity + '}';
     }
 }

@@ -147,7 +147,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "products/{id}")
+    @PatchMapping(path = "products/{id}")
     @Operation(summary = "Replace a product", description = "Set a name or value or quantity to create a product, " +
             "use the id parameter to identify the product you want to replace ",
             tags = {"User and administrator have access"})
