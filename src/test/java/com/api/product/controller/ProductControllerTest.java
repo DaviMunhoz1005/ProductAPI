@@ -72,9 +72,9 @@ class ProductControllerTest {
 
         Assertions.assertThat(productPage).isNotNull();
         Assertions.assertThat(productPage.toList()).isNotEmpty().hasSize(1);
-
         Assertions.assertThat(productPage.toList().get(0).getName()).isEqualTo(expectedName);
     }
+
 
     @Test
     @DisplayName("list return list of products when successful")
@@ -85,6 +85,18 @@ class ProductControllerTest {
 
         Assertions.assertThat(products).isNotNull().isNotEmpty().hasSize(1);
         Assertions.assertThat(products.get(0).getName()).isEqualTo(expectedName);
+    }
+
+    @Test
+    @DisplayName("list return empty list of products when dont have products in database")
+    void list_ReturnEmptyListOfProducts_WhenDontHaveProductsInDatabase() {
+
+        BDDMockito.when(productServiceMock.listAllProducts())
+                .thenReturn(Collections.emptyList());
+
+        List<Product> products = productController.listAllProducts().getBody();
+
+        Assertions.assertThat(products).isNull();
     }
 
     @Test

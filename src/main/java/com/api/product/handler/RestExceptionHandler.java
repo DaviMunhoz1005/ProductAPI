@@ -48,7 +48,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(", "));
-        String fieldsMessage = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
+        String fieldsMessage = fieldErrors.stream().map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining(", "));
         return new ResponseEntity<>(
                 ValidationExceptionDetails.builder()
                         .title("Bad Request Exception, invalid fields")

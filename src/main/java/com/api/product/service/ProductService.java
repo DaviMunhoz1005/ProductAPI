@@ -24,7 +24,6 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    /* List all of products */
     public Page<Product> listAllProductsPageable(Pageable pageable) {
 
         return productRepository.findAll(pageable);
@@ -36,7 +35,6 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    /* Add products */
     @Transactional
     public Product addProduct(ProductDTO productDTO) {
 
@@ -48,7 +46,6 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    /* Find products by id */
     public Product findById(Long id) {
 
         return productRepository.findById(id)
@@ -60,75 +57,22 @@ public class ProductService {
         return productRepository.findByName(name);
     }
 
-    /* Replace product */
     @Transactional
     public void replaceProduct(Long id, ProductDTO productDTO) {
 
         Product savedProduct = findById(id);
-        if((!productDTO.name().isEmpty()) && (productDTO.value() != 0) && (productDTO.quantity() != 0)){
 
-            Product product = Product.builder()
-                    .name(productDTO.name())
-                    .value(productDTO.value())
-                    .quantity(productDTO.quantity())
-                    .build();
+        Product product = Product.builder()
+                .name(productDTO.name() != null ? productDTO.name() : savedProduct.getName())
+                .value(productDTO.value() == 0 ? productDTO.value() : savedProduct.getValue())
+                .quantity(productDTO.quantity() < 0 ? productDTO.quantity() : savedProduct.getQuantity())
+                .build();
 
-            BeanUtils.copyProperties(product, savedProduct, "id");
-            productRepository.save(savedProduct);
-        }else if((productDTO.name().isEmpty()) && (productDTO.value() != 0) && (productDTO.quantity() != 0)) {
+        BeanUtils.copyProperties(product, savedProduct, "id");
+        productRepository.save(savedProduct);
 
-            Product product = Product.builder()
-                    .name(savedProduct.getName())
-                    .value(productDTO.value())
-                    .quantity(productDTO.quantity())
-                    .build();
-
-            BeanUtils.copyProperties(product, savedProduct, "id");
-            productRepository.save(savedProduct);
-        }else if((!productDTO.name().isEmpty()) && (productDTO.value() == 0) && (productDTO.quantity() != 0)) {
-
-            Product product = Product.builder()
-                    .name(productDTO.name())
-                    .value(savedProduct.getValue())
-                    .quantity(productDTO.quantity())
-                    .build();
-
-            BeanUtils.copyProperties(product, savedProduct, "id");
-            productRepository.save(savedProduct);
-        }else if((!productDTO.name().isEmpty()) && (productDTO.value() == 0) && (productDTO.quantity() == 0)) {
-
-            Product product = Product.builder()
-                    .name(productDTO.name())
-                    .value(savedProduct.getValue())
-                    .quantity(savedProduct.getQuantity())
-                    .build();
-
-            BeanUtils.copyProperties(product, savedProduct, "id");
-            productRepository.save(savedProduct);
-        }else if((!productDTO.name().isEmpty()) && (productDTO.value() != 0) && (productDTO.quantity() == 0)) {
-
-            Product product = Product.builder()
-                    .name(productDTO.name())
-                    .value(productDTO.value())
-                    .quantity(savedProduct.getQuantity())
-                    .build();
-
-            BeanUtils.copyProperties(product, savedProduct, "id");
-            productRepository.save(savedProduct);
-        }else if((productDTO.name().isEmpty()) && (productDTO.value() == 0) && (productDTO.quantity() == 0)) {
-
-            Product product = Product.builder()
-                    .name(savedProduct.getName())
-                    .value(savedProduct.getValue())
-                    .quantity(savedProduct.getQuantity())
-                    .build();
-
-            BeanUtils.copyProperties(product, savedProduct, "id");
-            productRepository.save(savedProduct);
-        }
     }
 
-    /* Delete product */
     @Transactional
     public void deleteProduct(Long id) {
 

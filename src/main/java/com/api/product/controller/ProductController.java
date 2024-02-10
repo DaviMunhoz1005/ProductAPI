@@ -43,12 +43,13 @@ public class ProductController {
 //    springActuator: localhost:8080/actuator  [/health, /metrics, /info]
 
     @GetMapping(path = "products")
-    @Operation(summary = "List all products in page form", description = "default page size is 20, use size parameter to change",
+    @Operation(summary = "List all products in page form", description = "default page size is 20, " +
+            "use size parameter to change",
             tags = {"User and administrator have access"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Operation")
     })
-    public @ResponseBody ResponseEntity<Page<Product>> listAllProductsPageable(@ParameterObject
+    public ResponseEntity<Page<Product>> listAllProductsPageable(@ParameterObject
                                                                                Pageable pageable) {
 
         Page<Product> productList = productService.listAllProductsPageable(pageable);
@@ -72,7 +73,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Successful Operation"),
             @ApiResponse(responseCode = "400", description = "List of products not found")
     })
-    public @ResponseBody ResponseEntity<List<Product>> listAllProducts() {
+    public ResponseEntity<List<Product>> listAllProducts() {
 
         List<Product> productList =  productService.listAllProducts();
         if(productList.isEmpty()) {
@@ -97,7 +98,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Successful Operation"),
             @ApiResponse(responseCode = "400", description = "Product not found in database")
     })
-    public @ResponseBody ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
 
        Product product = productService.findById(id);
        product.add(linkTo(methodOn(ProductController.class).listAllProducts()).withRel("List of products"));
@@ -114,21 +115,21 @@ public class ProductController {
             @ApiResponse(responseCode = "401", description = "User does not have authorization to find the product " +
                     "along with user information")
     })
-    public @ResponseBody ResponseEntity<Product> findByIdAuthentication(@PathVariable Long id,
-                                                                        @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Product> findByIdAuthentication(@PathVariable Long id,
+                                                          @AuthenticationPrincipal UserDetails userDetails) {
 
         log.info(userDetails);
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping(path = "products/find")
-    @Operation(summary = "Redeem a product by its name", description = "Define the name of the product you want to redeem" +
-            " in the name parameter",
+    @Operation(summary = "Redeem a product by its name", description = "Define the name of the product you " +
+            "want to redeem in the name parameter",
             tags = {"User and administrator have access"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Operation")
     })
-    public @ResponseBody ResponseEntity<List<Product>> findByName(@RequestParam String name) {
+    public ResponseEntity<List<Product>> findByName(@RequestParam String name) {
 
         return new ResponseEntity<>(productService.findByName(name), HttpStatus.OK);
     }
@@ -147,7 +148,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
 
-    @PatchMapping(path = "products/{id}")
+    @PutMapping(path = "products/{id}")
     @Operation(summary = "Replace a product", description = "Set a name or value or quantity to create a product, " +
             "use the id parameter to identify the product you want to replace ",
             tags = {"User and administrator have access"})

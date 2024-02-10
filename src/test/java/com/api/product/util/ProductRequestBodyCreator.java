@@ -7,9 +7,9 @@ public class ProductRequestBodyCreator {
     public static ProductDTO createProductDTO() {
 
         return ProductDTO.builder()
-                .name(ProductCreator.createProductToBeSaved().getName())
-                .value(ProductCreator.createProductToBeSaved().getValue())
-                .quantity(ProductCreator.createProductToBeSaved().getQuantity())
+                .name(ProductCreator.createValidUpdatedProduct().getName())
+                .value(ProductCreator.createValidUpdatedProduct().getValue())
+                .quantity(ProductCreator.createValidUpdatedProduct().getQuantity())
                 .build();
     }
 }

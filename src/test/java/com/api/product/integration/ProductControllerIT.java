@@ -210,7 +210,6 @@ class ProductControllerIT {
 
         Long expectedId = savedProduct.getId();
 
-        ProductDTO productDTO = ProductRequestBodyCreator.createProductDTO();
         ResponseEntity<Void> productResponseEntity = testRestTemplateRoleUser.exchange("/api/products/{id}",
                 HttpMethod.PUT, new HttpEntity<>(savedProduct), Void.class, expectedId);
 

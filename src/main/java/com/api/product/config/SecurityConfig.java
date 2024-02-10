@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,8 +36,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/products/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/products/**").hasRole("USER")
-                .requestMatchers("/actuator/**").permitAll()
+                .requestMatchers("/actuator/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -64,31 +62,3 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder);
     }
 }
-
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//
-//        http.csrf().disable().authorizeHttpRequests(authHttpReq -> authHttpReq
-//                .anyRequest()
-//                .authenticated()
-//        ).formLogin()
-//                .and()
-//                .httpBasic(withDefaults()).;
-//       return http.build();
-//    }
-//
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService() throws Exception {
-//
-//        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        log.info("Password encoded {}", passwordEncoder.encode("1005"));
-//        UserDetails user = User.withUsername("davi2")
-//                .password(passwordEncoder.encode("1005"))
-//                .roles("ADMIN")
-//                .build();
-//        UserDetails user2 = User.withUsername("teste2")
-//                .password(passwordEncoder.encode("1005"))
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user, user2);
-//    }

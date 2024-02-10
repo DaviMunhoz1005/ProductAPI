@@ -47,7 +47,6 @@ public class Product extends RepresentationModel<Product> implements Serializabl
     @DecimalMin(value = "0", message = "Please enter a valid quantity greater than 0")
     private Integer quantity;
 
-    /* Equals HashCode ToString*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
