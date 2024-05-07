@@ -78,8 +78,7 @@ class ProductRepositoryTest {
         Product productToBeSaved = ProductCreator.createProductToBeSaved();
         Product productSaved = this.productRepository.save(productToBeSaved);
 
-        String name = productSaved.getName();
-        List<Product> products = this.productRepository.findByName(name);
+        List<Product> products = this.productRepository.findByName(productSaved.getName());
 
         Assertions.assertThat(products).isNotEmpty()
                 .contains(productSaved);

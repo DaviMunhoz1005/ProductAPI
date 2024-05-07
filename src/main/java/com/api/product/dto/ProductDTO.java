@@ -17,6 +17,7 @@ public record ProductDTO(
 
         @DecimalMin(value = "0", message = "Please enter a valid quantity greater than 0")
         @Schema(description = "This is the product quantity", example = "54")
-        int quantity) {
+        int quantity
+) {
 
 }

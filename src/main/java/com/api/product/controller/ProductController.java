@@ -49,8 +49,7 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful Operation")
     })
-    public ResponseEntity<Page<Product>> listAllProductsPageable(@ParameterObject
-                                                                               Pageable pageable) {
+    public ResponseEntity<Page<Product>> listAllProductsPageable(@ParameterObject Pageable pageable) {
 
         Page<Product> productList = productService.listAllProductsPageable(pageable);
         if(productList.isEmpty()) {
@@ -102,7 +101,7 @@ public class ProductController {
 
        Product product = productService.findById(id);
        product.add(linkTo(methodOn(ProductController.class).listAllProducts()).withRel("List of products"));
-       return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
+       return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @GetMapping(path = "products/admin/{id}")
@@ -140,7 +139,7 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successful Operation"),
             @ApiResponse(responseCode = "400", description = "If the name is empty or null"),
-            @ApiResponse(responseCode = "400", description = "If the value is equal to or less than 0"),
+            @ApiResponse(responseCode = "400", description = "If the value is equal to or less than 0.10"),
             @ApiResponse(responseCode = "400", description = "If quantity is less than 0")
     })
     public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO product) {
@@ -149,17 +148,17 @@ public class ProductController {
     }
 
     @PutMapping(path = "products/{id}")
-    @Operation(summary = "Replace a product", description = "Set a name or value or quantity to create a product, " +
+    @Operation(summary = "Replace a product", description = "Set a name or value or quantity to modify a product, " +
             "use the id parameter to identify the product you want to replace ",
             tags = {"User and administrator have access"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successful Operation"),
             @ApiResponse(responseCode = "400", description = "Product not found in database")
     })
-    public ResponseEntity<Void> replaceProduct(@RequestBody ProductDTO product, @PathVariable Long id) {
+    public ResponseEntity<Void> replaceProduct(@Valid @RequestBody ProductDTO product, @PathVariable Long id) {
 
         productService.replaceProduct(id, product);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(path = "products/admin/{id}")
@@ -174,6 +173,6 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 
         productService.deleteProduct(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

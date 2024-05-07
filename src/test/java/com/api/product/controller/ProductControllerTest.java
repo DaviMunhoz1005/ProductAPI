@@ -152,7 +152,7 @@ class ProductControllerTest {
                 ProductRequestBodyCreator.createProductDTO(), expectedId);
 
         Assertions.assertThat(product).isNotNull();
-        Assertions.assertThat(product.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        Assertions.assertThat(product.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
@@ -165,6 +165,6 @@ class ProductControllerTest {
         ResponseEntity<Void> product = productController.deleteProduct(1L);
 
         Assertions.assertThat(product).isNotNull();
-        Assertions.assertThat(product.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        Assertions.assertThat(product.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }

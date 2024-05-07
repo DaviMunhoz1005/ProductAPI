@@ -39,7 +39,7 @@ public class Product extends RepresentationModel<Product> implements Serializabl
 
     @Column(name = "value_product")
     @JsonProperty("value")
-    @DecimalMin(value = "0.10", message = "Please enter a valid value greater than 0.20")
+    @DecimalMin(value = "0.10", message = "Please enter a valid value greater than 0.10")
     private double value;
 
     @Column(name = "quantity_product")

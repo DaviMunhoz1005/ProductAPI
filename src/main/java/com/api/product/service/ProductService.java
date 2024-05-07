@@ -49,7 +49,7 @@ public class ProductService {
     public Product findById(Long id) {
 
         return productRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Product not found"));
+                .orElseThrow(() -> new BadRequestException("Product not found!"));
     }
 
     public List<Product> findByName(String name) {
@@ -64,19 +64,17 @@ public class ProductService {
 
         Product product = Product.builder()
                 .name(productDTO.name() != null ? productDTO.name() : savedProduct.getName())
-                .value(productDTO.value() == 0 ? productDTO.value() : savedProduct.getValue())
-                .quantity(productDTO.quantity() < 0 ? productDTO.quantity() : savedProduct.getQuantity())
+                .value(productDTO.value() >= 0.10 ? productDTO.value() : savedProduct.getValue())
+                .quantity(productDTO.quantity() >= 0 ? productDTO.quantity() : savedProduct.getQuantity())
                 .build();
 
         BeanUtils.copyProperties(product, savedProduct, "id");
         productRepository.save(savedProduct);
-
     }
 
     @Transactional
     public void deleteProduct(Long id) {
 
-        Product product = findById(id);
-        productRepository.delete(product);
+        productRepository.deleteById(id);
     }
 }

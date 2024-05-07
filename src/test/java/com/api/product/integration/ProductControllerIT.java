@@ -214,7 +214,7 @@ class ProductControllerIT {
                 HttpMethod.PUT, new HttpEntity<>(savedProduct), Void.class, expectedId);
 
         Assertions.assertThat(productResponseEntity).isNotNull();
-        Assertions.assertThat(productResponseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        Assertions.assertThat(productResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
@@ -231,7 +231,7 @@ class ProductControllerIT {
                 HttpMethod.DELETE, null, Void.class, expectedId);
 
         Assertions.assertThat(productResponseEntity).isNotNull();
-        Assertions.assertThat(productResponseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        Assertions.assertThat(productResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
