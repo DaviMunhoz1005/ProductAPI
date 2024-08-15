@@ -1,4 +1,4 @@
-# Product_API
+# Product API
 
 The project is a product control api, it was built entirely with the spring framework and several of its dependencies, the api has unit and integration tests, security configuration in requests and also has "custom" exceptions.
 
